@@ -1,12 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendLineFinder", "TrendLineFinder\TrendLineFinder.csproj", "{DE8A0F61-337C-4778-ADB5-A30D64B118B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitQ TrendLine", "BitQ TrendLine\BitQ TrendLine.csproj", "{DE8A0F61-337C-4778-ADB5-A30D64B118B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeakTroughtFinder", "..\PeakTroughtFinder\PeakTroughtFinder\PeakTroughtFinder.csproj", "{4FDDEA50-6CB9-41E7-9462-F284B1C26CAC}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

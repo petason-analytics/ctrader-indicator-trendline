@@ -2,10 +2,10 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("TrendLineFinder")]
+[assembly: AssemblyTitle("BitQ TrendLine")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("TrendLineFinder")]
+[assembly: AssemblyProduct("BitQ TrendLine")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace cAlgo
 {
     [Indicator(IsOverlay = true, TimeZone = TimeZones.UTC, AccessRights = AccessRights.None)]
-    public class TrendLineFinder : Indicator
+    public class BitQTrendLine : Indicator
     {
 
         [Parameter("Period", DefaultValue = 6, Step = 1)]
@@ -22,7 +22,7 @@ namespace cAlgo
         [Output("Main")]
         public IndicatorDataSeries Result { get; set; }
 
-        private PeakTroughtFinder peakTroughtFinder;
+        private BitQPeakTrough peakTroughtFinder;
         private Utils utils;
         private ArrayList peaksData;
         private ArrayList troughtData;
@@ -34,14 +34,14 @@ namespace cAlgo
         protected override void Initialize()
         {
             // Initialize and create nested indicators
-            peakTroughtFinder = Indicators.GetIndicator<PeakTroughtFinder>(true, 10, 10);
+            peakTroughtFinder = Indicators.GetIndicator<BitQPeakTrough>(true, 10, 10);
             utils = new Utils();
         }
 
         public override void Calculate(int index)
         {
             // Calculate value at specified index
-             //Result[index] = index;
+            //Result[index] = index;
             peakTroughtFinder.Calculate(index);
             peaksData = peakTroughtFinder.getPeakData();
             //Print("counter peakData: ", peaksData.Count);
@@ -91,25 +91,24 @@ namespace cAlgo
                     }
                 }
             }
-            
+
             foreach (ArrayList _o in paired)
             {
                 double[] xVals = new double[3];
                 double[] yVals = new double[3];
                 int inx = 0;
-                foreach (PeakTroughtFinder.PeakTroughData _j in _o)
+                foreach (BitQPeakTrough.PeakTroughData _j in _o)
                 {
                     try
                     {
                         xVals[inx] = _j.Index;
                         yVals[inx] = _j.Value;
                         inx++;
-                    }
-                    catch (Exception)
+                    } catch (Exception)
                     {
 
                     }
-                    
+
                 }
                 lr(xVals, yVals, isPeak);
             }
@@ -152,7 +151,7 @@ namespace cAlgo
                 //    Chart.DrawIcon("icon_" + xValues[0].ToString(), ChartIconType.Diamond, index, yValues[y], isPeak ? Color.DarkCyan : Color.Olive);
                 //}
 
-                ChartObjects.DrawLine("a" + xValues[0].ToString(), (int) xValues[0], yValues[0], (int) xValues[2], yValues[2], isPeak ? Colors.DarkCyan : Colors.Olive, 2);
+                ChartObjects.DrawLine("a" + xValues[0].ToString(), (int)xValues[0], yValues[0], (int)xValues[2], yValues[2], isPeak ? Colors.DarkCyan : Colors.Olive, 2);
             }
         }
 

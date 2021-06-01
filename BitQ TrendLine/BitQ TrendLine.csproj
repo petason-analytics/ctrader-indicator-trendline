@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>cAlgo</RootNamespace>
-    <AssemblyName>TrendLineFinder</AssemblyName>
+    <AssemblyName>BitQ TrendLine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils.cs" />
-    <Compile Include="TrendLineFinder.cs" />
+    <Compile Include="BitQ TrendLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -59,9 +59,9 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\PeakTroughtFinder\PeakTroughtFinder\PeakTroughtFinder.csproj">
+    <ProjectReference Include="..\..\BitQ Peak Trough\BitQ Peak Trough\BitQ Peak Trough.csproj">
       <Project>{4FDDEA50-6CB9-41E7-9462-F284B1C26CAC}</Project>
-      <Name>PeakTroughtFinder</Name>
+      <Name>BitQ Peak Trough</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
