@@ -31,6 +31,7 @@ namespace cAlgo
         private ArrayList peaksData;
         private ArrayList troughtData;
         private Tick tick;
+        private AverageTrueRange atr;
 
         private int lastCalPeak = 0;
         private int lastCalTrough = 0;
@@ -40,12 +41,14 @@ namespace cAlgo
 
         protected override void Initialize()
         {
-            Print("TimeFrame: " +TimeFrame);
-            Print("SymbolName:" +Symbol.Name);
+            Print("TimeFrame: " + TimeFrame);
+            Print("SymbolName:" + Symbol.Name);
             // Initialize and create nested indicators
             Chart.RemoveAllObjects();
             peakTroughtFinder = Indicators.GetIndicator<BitQPeakTrough>(true, 10, 10);
             peakTroughtFinder.reset();
+
+            atr = Indicators.AverageTrueRange(6, MovingAverageType.Exponential);
         }
 
 
@@ -123,13 +126,30 @@ namespace cAlgo
                     }
 
                 }
-                lr(xVals, yVals,timeVals, isPeak);
+                lr(xVals, yVals, timeVals, isPeak);
             }
 
         }
 
+        public double findThresholdBaseOnATR(int startIndex, int endIndex)
+        {
+            double sumATR = 0;
+            int max = Math.Max(startIndex, endIndex);
+            int min = Math.Min(startIndex, endIndex);
+            for(int i = min; i <= max; i++)
+            {
+                if(atr.Result[i] != null)
+                {
+                    sumATR += atr.Result[i];
+                }
+            }
+            double averageATR = sumATR / (endIndex - startIndex);
+            return averageATR;
+        }
+
         public void lr(double[] xValues, double[] yValues, DateTime[] times, bool isPeak)
         {
+            if (xValues[0] * xValues[1] * xValues[2] == 0) return;
             double rSquared, w, b;
             helperFunc.LinearRegression(xValues, yValues, out rSquared, out b, out w);
 
@@ -146,6 +166,7 @@ namespace cAlgo
             }
             double threshold2, brokenthreshold;
             getThreshold(out threshold2, out brokenthreshold);
+            threshold2 = findThresholdBaseOnATR((int) xValues[0],(int) xValues[2]);
             // base on XAU
             double threshold = Threshold > 0 ? Threshold : threshold2;
             // XAU has it's value > 1000
@@ -153,22 +174,15 @@ namespace cAlgo
             {
                 if (!AllowBroken)
                 {
-                    if (isBrokenTrend(w, b, (int)xValues[0], (int)xValues[2], isPeak, BrokenTrendThreshold > 0 ? BrokenTrendThreshold : brokenthreshold))
+                    if (isBrokenTrend(w, b, (int)xValues[0], (int)xValues[2], isPeak, BrokenTrendThreshold > 0 ? BrokenTrendThreshold : threshold2/ 2))
                     {
                         return;
                     }
                 }
                 var startY = w * xValues[0] + b;
                 var endY = w * xValues[2] + b;
-                
-                Chart.DrawTrendLine("TrendLine_" + xValues[0].ToString() +"_"+ xValues[2].ToString(),
-                    (int) xValues[0],
-                    startY,
-                    (int)xValues[2],
-                    endY,
-                    isPeak ? Color.DarkCyan : Color.Olive,
-                    2
-                    );
+
+                Chart.DrawTrendLine("TrendLine_" + xValues[0].ToString() + "_" + xValues[2].ToString(), (int)xValues[0], startY, (int)xValues[2], endY, isPeak ? Color.DarkCyan : Color.Olive, 2);
                 //ChartObjects.DrawLine("a" + xValues[0].ToString(), (int)xValues[0], yValues[0], (int)xValues[2], yValues[2], isPeak ? Colors.DarkCyan : Colors.Olive, 2);
             }
         }
@@ -177,7 +191,7 @@ namespace cAlgo
         {
             threshold = 0.1;
             brokenThreshold = 0;
-            if(Symbol.Name == "XAUUSD")
+            if (Symbol.Name == "XAUUSD")
             {
                 if (TimeFrame == TimeFrame.Minute15)
                 {
@@ -189,7 +203,7 @@ namespace cAlgo
                     threshold = 1;
                     brokenThreshold = 1;
                 }
-                else if(TimeFrame == TimeFrame.Hour)
+                else if (TimeFrame == TimeFrame.Hour)
                 {
                     threshold = 1.2;
                     brokenThreshold = 1.2;
@@ -215,7 +229,7 @@ namespace cAlgo
                     brokenThreshold = 3;
                 }
             }
-            
+
         }
 
         public double getBrokenThreshold()
