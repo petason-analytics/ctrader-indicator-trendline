@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BitQ Peak Trough">
+      <HintPath>..\..\..\Utils\BitQ Peak Trough.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,9 +47,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\API\cAlgo.API.dll</HintPath>
     </Reference>
+    <Reference Include="Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Utils\Utils.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils.cs" />
     <Compile Include="BitQ TrendLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,10 +64,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\BitQ Peak Trough\BitQ Peak Trough\BitQ Peak Trough.csproj">
-      <Project>{4FDDEA50-6CB9-41E7-9462-F284B1C26CAC}</Project>
-      <Name>BitQ Peak Trough</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
